@@ -1,0 +1,1 @@
+Geometric objects and utilities for python
