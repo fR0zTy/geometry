@@ -80,3 +80,18 @@ def test_point_vector_magnitude():
 
     pt = Point(0, 3, 4)
     assert pt.magnitude() == 5
+
+
+def test_point_round():
+    pt = Point(1.22, 2.33445, 2.3343)
+    rounded = round(pt)
+    assert rounded == Point(1, 2, 2)
+
+    rounded = round(pt, 2)
+    assert rounded == Point(1.22, 2.33, 2.33)
+
+
+def test_point_hashable(rand_point):
+    pt_dict = {rand_point: 23}
+    pt_dict[rand_point] = 34
+    assert len(pt_dict) == 1 and pt_dict[rand_point] == 34

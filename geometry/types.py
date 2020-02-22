@@ -8,6 +8,8 @@ Real = Union[int, float]
 Vector = List[Real]
 
 # Enums
+
+
 class Axis(Enum):
     X = 1
     Y = 0

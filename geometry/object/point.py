@@ -29,10 +29,20 @@ class Point:
         return (getattr(self, attr) for attr in ["x", "y", "z"])
 
     def __add__(self, other: "Point") -> "Point":
-        return Point(x=self.x + other.x, y=self.y + other.y, z=self.z + other.z)
+        if isinstance(other, Point):
+            return Point(x=self.x + other.x, y=self.y + other.y, z=self.z + other.z)
+        elif isinstance(other, int) or isinstance(other, float):
+            return Point(x=self.x + other, y=self.y + other, z=self.z + other)
+        else:
+            raise ValueError(f"Cannot add instances of type {type(other)} and {type(self)}")
 
     def __sub__(self, other: "Point") -> "Point":
-        return Point(x=self.x - other.x, y=self.y - other.y, z=self.z - other.z)
+        if isinstance(other, Point):
+            return Point(x=self.x - other.x, y=self.y - other.y, z=self.z - other.z)
+        elif isinstance(other, int) or isinstance(other, float):
+            return Point(x=self.x - other, y=self.y - other, z=self.z - other)
+        else:
+            raise ValueError(f"Cannot subtract instances of type {type(other)} and {type(self)}")
 
     def __mul__(self, other: "Point") -> "Point":
         if isinstance(other, Point):
@@ -40,7 +50,7 @@ class Point:
         elif isinstance(other, int) or isinstance(other, float):
             return Point(x=self.x * other, y=self.y * other, z=self.z * other)
         else:
-            raise ValueError("Other must be a point or a scalar")
+            raise ValueError(f"Cannot multiply instances of type {type(other)} and {type(self)}")
 
     def __truediv__(self, other: "Point") -> "Point":
         if isinstance(other, Point):
@@ -48,7 +58,7 @@ class Point:
         elif isinstance(other, int) or isinstance(other, float):
             return Point(x=self.x / other, y=self.y / other, z=self.z / other)
         else:
-            raise ValueError("Other must be a point or a scalar")
+            raise ValueError(f"Cannot divide instances of type {type(other)} and {type(self)}")
 
     def __eq__(self, other: "Point") -> bool:
         return (self.__round_compare(self.x, other.x) and
@@ -59,13 +69,13 @@ class Point:
         return int(re.sub(r"\D", "", str(self)))
 
     def __str__(self) -> str:
-        return f"Point(x={self.x:.2f}, y={self.y:.2f}, z={self.z:.2f})"
+        return f"Point(x={self.x:.4f}, y={self.y:.4f}, z={self.z:.4f})"
 
     def __repr__(self) -> str:
         return str(self)
 
     def __round__(self, n=None) -> "Point":
-        return Point(*[round(i, n) for i in self])
+        return Point(*(round(i, n) for i in self))
 
     def translate(self, dx: Real, dy: Real, dz: Real) -> None:
         self.x += dx
