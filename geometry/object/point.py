@@ -34,6 +34,7 @@ class Point(Vector):
 
     @y.setter
     def y(self, value: Real):
+        assert isinstance(value, (int, float))
         self.values[1] = value
 
     @property
@@ -42,6 +43,7 @@ class Point(Vector):
 
     @z.setter
     def z(self, value):
+        assert isinstance(value, (int, float))
         self.values[2] = value
 
     def __add__(self, other: "Point") -> "Point":
