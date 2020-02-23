@@ -1,40 +1,56 @@
 # -*- coding : utf-8 -*-
 
 import re
-from copy import deepcopy
-from math import atan2, sqrt
-from typing import Generator, Tuple, Union
+from math import sqrt
+from typing import Tuple
 
 import numpy as np
 
+from geometry import Vector
+from geometry.error import InvalidSizeError
 from geometry.types import Real
+from geometry.utilities import round_compare
 
 
-class Point:
+class Point(Vector):
 
     ROUND_PRECISION = 4
 
     def __init__(self, x: Real = 0.0, y: Real = 0.0, z: Real = 0.0) -> None:
+        super().__init__([x, y, z])
 
-        if not all(isinstance(i, int) or isinstance(i, float) for i in (x, y, z)):
-            raise ValueError("attributes must be of type int or float")
+    @property
+    def x(self):
+        return self.values[0]
 
-        self.x = x
-        self.y = y
-        self.z = z
+    @x.setter
+    def x(self, value: Real) -> None:
+        assert isinstance(value, (int, float))
+        self.values[0] = value
 
-        self.__round_compare = lambda a, b: round(a, self.ROUND_PRECISION) == round(b, self.ROUND_PRECISION)
+    @property
+    def y(self):
+        return self.values[1]
 
-    def __iter__(self) -> Generator[Real, None, None]:
-        return (getattr(self, attr) for attr in ["x", "y", "z"])
+    @y.setter
+    def y(self, value: Real):
+        self.values[1] = value
 
-    def __add__(self, other: Union["Point", Real]) -> "Point":
+    @property
+    def z(self):
+        return self.values[2]
+
+    @z.setter
+    def z(self, value):
+        self.values[2] = value
+
+    def __add__(self, other: "Point") -> "Point":
         if not isinstance(other, Point):
             raise ValueError(f"Cannot add instances of type {type(other)} and {type(self)}")
 
         return Point(x=self.x + other.x, y=self.y + other.y, z=self.z + other.z)
 
-    def __sub__(self, other: ["Point", Real]) -> "Point":
+    def __sub__(self, other: "Point") -> "Point":
         if not isinstance(other, Point):
             raise ValueError(f"Cannot subtract instances of type {type(other)} and {type(self)}")
 
@@ -53,18 +69,15 @@ class Point:
         return Point(x=self.x / other.x, y=self.y / other.y, z=self.z / other.z)
 
     def __eq__(self, other: "Point") -> bool:
-        return (self.__round_compare(self.x, other.x) and
-                self.__round_compare(self.y, other.y) and
-                self.__round_compare(self.z, other.z))
+        return (round_compare(self.x, other.x, self.ROUND_PRECISION) and
+                round_compare(self.y, other.y, self.ROUND_PRECISION) and
+                round_compare(self.z, other.z, self.ROUND_PRECISION))
 
     def __hash__(self) -> int:
         return int(re.sub(r"\D", "", str(self)))
 
     def __str__(self) -> str:
         return f"Point(x={self.x:.4f}, y={self.y:.4f}, z={self.z:.4f})"
-
-    def __repr__(self) -> str:
-        return str(self)
 
     def __round__(self, n=None) -> "Point":
         return Point(*(round(i, n) for i in self))
@@ -83,31 +96,27 @@ class Point:
     def rotate_around_axis(self, axis, angle):
         raise NotImplementedError()
 
-    def copy(self) -> "Point":
-        return deepcopy(self)
-
     def distance_to(self, other) -> Real:
         return sqrt((other.x - self.x) ** 2 + (other.y - self.y) ** 2 + (other.z - self.z) ** 2)
 
     def near(self, other, threshold=0.01) -> bool:
         return self.distance_to(other) <= threshold
 
-    def as_tuple(self) -> Tuple[Real, Real, Real]:
-        return (self.x, self.y, self.z)
-
-    def as_numpy_array(self) -> np.ndarray:
-        return np.array(self.as_tuple(), dtype=np.float)
-
     def angle(self) -> Real:
-        return atan2(self.y, self.x)
-
-    def magnitude(self) -> Real:
-        return sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
-
-    @classmethod
-    def from_tuple(cls, tup) -> "Point":
-        return cls(*tup)
+        raise NotImplementedError
 
     @classmethod
     def at_origin(cls) -> "Point":
         return cls()
+
+    @classmethod
+    def from_tuple(cls, tup: Tuple[Real, Real, Real]) -> "Point":
+        if len(tup) != 3:
+            raise InvalidSizeError("length of tuple must be 3")
+        return cls(*tup)
+
+    @classmethod
+    def from_numpy_array(cls, arr: np.ndarray) -> "Point":
+        if len(arr) != 3:
+            raise InvalidSizeError("array must be of size 3")
+        return cls(*arr)
