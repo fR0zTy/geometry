@@ -1,11 +1,11 @@
 # -*- coding : utf-8 -*-
 
 from enum import Enum
-from typing import List, Union
+from typing import Union, List
 
 # Type definitions
 Real = Union[int, float]
-Vector = List[Real]
+RealList = List[Real]
 
 # Enums
 

@@ -3,7 +3,7 @@
 import re
 from copy import deepcopy
 from math import atan2, sqrt
-from typing import Generator, Tuple
+from typing import Generator, Tuple, Union
 
 import numpy as np
 
@@ -14,7 +14,7 @@ class Point:
 
     ROUND_PRECISION = 4
 
-    def __init__(self, x: Real=0.0, y: Real=0.0, z: Real=0.0) -> None:
+    def __init__(self, x: Real = 0.0, y: Real = 0.0, z: Real = 0.0) -> None:
 
         if not all(isinstance(i, int) or isinstance(i, float) for i in (x, y, z)):
             raise ValueError("attributes must be of type int or float")
@@ -28,37 +28,29 @@ class Point:
     def __iter__(self) -> Generator[Real, None, None]:
         return (getattr(self, attr) for attr in ["x", "y", "z"])
 
-    def __add__(self, other: "Point") -> "Point":
-        if isinstance(other, Point):
-            return Point(x=self.x + other.x, y=self.y + other.y, z=self.z + other.z)
-        elif isinstance(other, int) or isinstance(other, float):
-            return Point(x=self.x + other, y=self.y + other, z=self.z + other)
-        else:
+    def __add__(self, other: Union["Point", Real]) -> "Point":
+        if not isinstance(other, Point):
             raise ValueError(f"Cannot add instances of type {type(other)} and {type(self)}")
 
-    def __sub__(self, other: "Point") -> "Point":
-        if isinstance(other, Point):
-            return Point(x=self.x - other.x, y=self.y - other.y, z=self.z - other.z)
-        elif isinstance(other, int) or isinstance(other, float):
-            return Point(x=self.x - other, y=self.y - other, z=self.z - other)
-        else:
+        return Point(x=self.x + other.x, y=self.y + other.y, z=self.z + other.z)
+
+    def __sub__(self, other: ["Point", Real]) -> "Point":
+        if not isinstance(other, Point):
             raise ValueError(f"Cannot subtract instances of type {type(other)} and {type(self)}")
 
+        return Point(x=self.x - other.x, y=self.y - other.y, z=self.z - other.z)
+
     def __mul__(self, other: "Point") -> "Point":
-        if isinstance(other, Point):
-            return Point(x=self.x * other.x, y=self.y * other.y, z=self.z * other.z)
-        elif isinstance(other, int) or isinstance(other, float):
-            return Point(x=self.x * other, y=self.y * other, z=self.z * other)
-        else:
+        if not isinstance(other, Point):
             raise ValueError(f"Cannot multiply instances of type {type(other)} and {type(self)}")
 
+        return Point(x=self.x * other.x, y=self.y * other.y, z=self.z * other.z)
+
     def __truediv__(self, other: "Point") -> "Point":
-        if isinstance(other, Point):
-            return Point(x=self.x / other.x, y=self.y / other.y, z=self.z / other.z)
-        elif isinstance(other, int) or isinstance(other, float):
-            return Point(x=self.x / other, y=self.y / other, z=self.z / other)
-        else:
+        if not isinstance(other, Point):
             raise ValueError(f"Cannot divide instances of type {type(other)} and {type(self)}")
+
+        return Point(x=self.x / other.x, y=self.y / other.y, z=self.z / other.z)
 
     def __eq__(self, other: "Point") -> bool:
         return (self.__round_compare(self.x, other.x) and
