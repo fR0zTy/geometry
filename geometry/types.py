@@ -1,6 +1,5 @@
 # -*- coding : utf-8 -*-
 
-from enum import Enum
 from typing import Union, List
 
 # Type definitions
@@ -10,7 +9,7 @@ RealList = List[Real]
 # Enums
 
 
-class Axis(Enum):
+class Axis:
     X = 1
     Y = 0
     Z = 2

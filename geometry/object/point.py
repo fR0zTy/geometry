@@ -1,14 +1,14 @@
 # -*- coding : utf-8 -*-
 
 import re
-from math import sqrt
+from math import atan2, sqrt
 from typing import Tuple
 
 import numpy as np
 
 from geometry import Vector
 from geometry.error import InvalidSizeError
-from geometry.types import Real
+from geometry.types import Real, Axis
 from geometry.utilities import round_compare
 
 
@@ -102,8 +102,15 @@ class Point(Vector):
     def near(self, other, threshold=0.01) -> bool:
         return self.distance_to(other) <= threshold
 
-    def angle(self) -> Real:
-        raise NotImplementedError
+    def angle(self, axis: Axis) -> Real:
+        if axis == Axis.X:
+            return atan2(sqrt(self.y ** 2 + self.z ** 2), self.x)
+        elif axis == Axis.Y:
+            return atan2(sqrt(self.z ** 2 + self.x ** 2), self.y)
+        elif axis == Axis.Z:
+            return atan2(sqrt(self.x ** 2 + self.y ** 2), self.z)
+        else:
+            raise ValueError("Invalid value for axis")
 
     @classmethod
     def at_origin(cls) -> "Point":
