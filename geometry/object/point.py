@@ -20,7 +20,7 @@ class Point(Vector):
         super().__init__([x, y, z])
 
     @property
-    def x(self):
+    def x(self) -> Real:
         return self.values[0]
 
     @x.setter
@@ -29,20 +29,20 @@ class Point(Vector):
         self.values[0] = value
 
     @property
-    def y(self):
+    def y(self) -> Real:
         return self.values[1]
 
     @y.setter
-    def y(self, value: Real):
+    def y(self, value: Real) -> None:
         assert isinstance(value, (int, float))
         self.values[1] = value
 
     @property
-    def z(self):
+    def z(self) -> Real:
         return self.values[2]
 
     @z.setter
-    def z(self, value):
+    def z(self, value) -> None:
         assert isinstance(value, (int, float))
         self.values[2] = value
 

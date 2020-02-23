@@ -3,6 +3,7 @@
 import pytest
 
 from geometry import Vector
+from geometry.utilities import is_close
 
 
 def test_vector_generation():
@@ -43,3 +44,19 @@ def test_vector_div():
 
     v3 = v1 / v2
     assert v3 == Vector([1, 1, 1])
+
+
+def test_vector_magnitude():
+    v1 = Vector([3, 4, 12])
+    assert v1.magnitude() == 13
+
+
+def test_vector_scaling():
+    v1 = Vector([1, 1, 1])
+    assert v1.scale(2) == Vector([2, 2, 2])
+
+
+def test_vector_normalize():
+    v1 = Vector([4, 5, 6])
+    normed = v1.normalize()
+    assert is_close(normed.magnitude(), 1.0, threshold=0.0001)

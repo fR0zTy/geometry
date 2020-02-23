@@ -77,6 +77,13 @@ class Vector:
     def magnitude(self) -> Real:
         return sqrt(sum(i ** 2 for i in self))
 
+    def normalize(self) -> "Vector":
+        mag = self.magnitude()
+        return Vector(i / mag for i in self)
+
+    def scale(self, factor: Real) -> "Vector":
+        return Vector(i * factor for i in self)
+
     def as_numpy_array(self) -> np.ndarray:
         return np.array(self.values)
 
