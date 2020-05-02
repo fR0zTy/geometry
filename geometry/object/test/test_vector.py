@@ -1,9 +1,9 @@
 # -*- coding : utf-8 -*-
+import math
 
 import pytest
 
 from geometry import Vector
-from geometry.utilities import is_close
 
 
 def test_vector_generation():
@@ -59,4 +59,4 @@ def test_vector_scaling():
 def test_vector_normalize():
     v1 = Vector([4, 5, 6])
     normed = v1.normalize()
-    assert is_close(normed.magnitude(), 1.0, threshold=0.0001)
+    assert math.isclose(normed.magnitude(), 1.0, rel_tol=1e-04)
