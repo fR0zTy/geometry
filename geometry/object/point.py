@@ -114,6 +114,9 @@ class Point(Vector):
         else:
             raise ValueError("Invalid value for axis")
 
+    def to_vector(self):
+        return Vector(self)
+
     @property
     def is_undefined(self):
         return any(isnan(i) for i in self)
