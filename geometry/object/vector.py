@@ -8,6 +8,7 @@ import numpy as np
 
 from geometry.error import InvalidSizeError
 from geometry.types import Real
+from geometry.utilities import round_compare
 
 
 class Vector:
@@ -58,7 +59,7 @@ class Vector:
         if not len(self) == len(other):
             raise InvalidSizeError(f"Cannot compare vectors of size {len(self)} and {len(other)}")
 
-        return all(i == j for i, j in zip(self, other))
+        return all(round_compare(i, j, self.ROUND_PRECISION) for i, j in zip(self, other))
 
     def __str__(self) -> str:
         return f"Vector(values={str(self.values)})"
