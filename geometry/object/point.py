@@ -1,7 +1,7 @@
 # -*- coding : utf-8 -*-
 
 import re
-from math import atan2, sqrt
+from math import atan2, sqrt, isnan
 from typing import Tuple
 
 import numpy as np
@@ -113,6 +113,14 @@ class Point(Vector):
             return atan2(sqrt(self.x ** 2 + self.y ** 2), self.z)
         else:
             raise ValueError("Invalid value for axis")
+
+    @property
+    def is_undefined(self):
+        return any(isnan(i) for i in self)
+
+    @property
+    def is_origin(self):
+        return all(i == 0 for i in self)
 
     @classmethod
     def at_origin(cls) -> "Point":

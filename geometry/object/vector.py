@@ -1,4 +1,5 @@
 # -*- coding : utf-8 -*-
+
 from copy import deepcopy
 from math import sqrt
 from typing import Generator, Iterable, Tuple
@@ -89,6 +90,10 @@ class Vector:
 
     def as_tuple(self) -> Tuple[Real]:
         return tuple(i for i in self)
+
+    @property
+    def is_undefined(self):
+        return all(i == 0 for i in self)
 
     @classmethod
     def from_tuple(cls, tup: Tuple[Real]) -> "Vector":
