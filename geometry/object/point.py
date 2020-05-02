@@ -79,7 +79,7 @@ class Point(Vector):
         return int(re.sub(r"\D", "", str(self)))
 
     def __str__(self) -> str:
-        return f"Point(x={self.x:.4f}, y={self.y:.4f}, z={self.z:.4f})"
+        return f"{self.__class__.__name__}(x={self.x:.4f}, y={self.y:.4f}, z={self.z:.4f})"
 
     def __round__(self, n=None) -> "Point":
         return Point(*(round(i, n) for i in self))
