@@ -29,3 +29,12 @@ def test_contains_point():
     assert l2.contains_point(Point(4, 0, 0))
     assert l2.contains_point(Point(-3, 0, 0))
     assert not l2.contains_point(Point(0, 1, 0))
+
+
+def test_parallel():
+    l1 = Line()  # X-axis
+    l2 = Line(direction_vector=Vector([4, 0, 0]), point=Point(8, 0, 0))
+    l3 = Line.from_points(Point(1, 1, 1), Point(2, 2, 2))
+
+    assert l1.is_parallel(l2)
+    assert not l1.is_parallel(l3)

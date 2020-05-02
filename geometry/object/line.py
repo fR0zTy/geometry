@@ -36,6 +36,11 @@ class Line:
 
         return True
 
+    def is_parallel(self, other: 'Line') -> bool:
+        if not isinstance(other, Line):
+            raise TypeError("other must be of type Line")
+        return self.direction_vector.normalize() == other.direction_vector.normalize()
+
     @classmethod
     def from_points(cls, p0: Point, p1: Point) -> "Line":
         direction_vector = (p1 - p0).to_vector()
