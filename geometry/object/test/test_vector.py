@@ -60,3 +60,15 @@ def test_vector_normalize():
     v1 = Vector([4, 5, 6])
     normed = v1.normalize()
     assert math.isclose(normed.magnitude(), 1.0, rel_tol=1e-04)
+
+
+def test_vector_dot():
+    v1 = Vector([1, 2, 3])
+    v2 = Vector([1, 2, 3])
+    assert v1.dot(v2) == 14
+
+
+def test_vector_angle():
+    v1 = Vector([1, 0, 0])
+    v2 = Vector([0, 1, 0])
+    assert math.isclose(v1.angle(v2), math.pi / 2, rel_tol=1e-04)

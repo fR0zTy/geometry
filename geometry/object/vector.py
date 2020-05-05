@@ -1,7 +1,7 @@
 # -*- coding : utf-8 -*-
 
 from copy import deepcopy
-from math import sqrt
+from math import sqrt, acos
 from typing import Generator, Iterable, Tuple
 
 import numpy as np
@@ -85,6 +85,12 @@ class Vector:
 
     def scale(self, factor: Real) -> "Vector":
         return Vector(i * factor for i in self)
+
+    def angle(self, other: "Vector") -> Real:
+        return acos(self.dot(other) / self.magnitude() * other.magnitude())
+
+    def dot(self, other: "Vector") -> Real:
+        return sum(self * other)
 
     def as_numpy_array(self) -> np.ndarray:
         return np.array(self.values)
