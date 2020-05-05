@@ -72,3 +72,27 @@ def test_vector_angle():
     v1 = Vector([1, 0, 0])
     v2 = Vector([0, 1, 0])
     assert math.isclose(v1.angle(v2), math.pi / 2, rel_tol=1e-04)
+
+
+def test_vector_parallel():
+    v1 = Vector([1, 1, 1])
+    v2 = Vector([3, 3, 3])
+    v3 = Vector([-1, -1, -1])
+    v4 = Vector([0, 1, 0])
+
+    assert v1.is_parallel(v2)
+    assert v2.is_parallel(v3)
+    assert v3.is_parallel(v1)
+    assert not v1.is_parallel(v4)
+
+
+def test_vector_orthogonal():
+    v1 = Vector([1, 0, 0])
+    v2 = Vector([0, 1, 0])
+    v3 = Vector([0, 0, 1])
+    v4 = Vector([1, 1, 1])
+
+    assert v1.is_orthogonal(v2)
+    assert v2.is_orthogonal(v3)
+    assert v3.is_orthogonal(v1)
+    assert not v1.is_orthogonal(v4)

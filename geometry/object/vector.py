@@ -1,7 +1,7 @@
 # -*- coding : utf-8 -*-
 
 from copy import deepcopy
-from math import sqrt, acos
+from math import sqrt, acos, isclose
 from typing import Generator, Iterable, Tuple
 
 import numpy as np
@@ -62,7 +62,7 @@ class Vector:
         return all(round_compare(i, j, self.ROUND_PRECISION) for i, j in zip(self, other))
 
     def __str__(self) -> str:
-        return f"Vector(values={str(self.values)})"
+        return f"{self.__class__.__name__}(values={str(self.values)})"
 
     def __repr__(self) -> str:
         return str(self)
@@ -91,6 +91,16 @@ class Vector:
 
     def dot(self, other: "Vector") -> Real:
         return sum(self * other)
+
+    def is_parallel(self, other: "Vector") -> Real:
+        v1 = self.normalize()
+        v2 = other.normalize()
+        return isclose(abs(v1.dot(v2)), 1.0)
+
+    def is_orthogonal(self, other: "Vector") -> Real:
+        v1 = self.normalize()
+        v2 = other.normalize()
+        return isclose(abs(v1.dot(v2)), 0.0, abs_tol=1e-04)
 
     def as_numpy_array(self) -> np.ndarray:
         return np.array(self.values)
