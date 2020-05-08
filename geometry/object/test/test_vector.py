@@ -77,13 +77,21 @@ def test_vector_angle():
 def test_vector_parallel():
     v1 = Vector([1, 1, 1])
     v2 = Vector([3, 3, 3])
-    v3 = Vector([-1, -1, -1])
-    v4 = Vector([0, 1, 0])
+    v3 = Vector([0, 1, 0])
 
     assert v1.is_parallel(v2)
-    assert v2.is_parallel(v3)
-    assert v3.is_parallel(v1)
-    assert not v1.is_parallel(v4)
+    assert not v2.is_parallel(v3)
+    assert not v3.is_parallel(v1)
+
+
+def test_vector_antiparallel():
+    v1 = Vector([1, 1, 1])
+    v2 = Vector([-1, -1, -1])
+    v3 = Vector([0, 0, 1])
+
+    assert v1.is_antiparallel(v2)
+    assert not v2.is_antiparallel(v3)
+    assert not v3.is_antiparallel(v1)
 
 
 def test_vector_orthogonal():

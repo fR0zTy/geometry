@@ -92,10 +92,15 @@ class Vector:
     def dot(self, other: "Vector") -> Real:
         return sum(self * other)
 
-    def is_parallel(self, other: "Vector") -> Real:
+    def is_parallel(self, other: "Vector") -> bool:
         v1 = self.normalize()
         v2 = other.normalize()
-        return isclose(abs(v1.dot(v2)), 1.0)
+        return isclose(v1.dot(v2), 1.0)
+
+    def is_antiparallel(self, other: "Vector") -> bool:
+        v1 = self.normalize()
+        v2 = other.normalize()
+        return isclose(v1.dot(v2), -1.0)
 
     def is_orthogonal(self, other: "Vector") -> Real:
         v1 = self.normalize()
