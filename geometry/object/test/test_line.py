@@ -35,6 +35,25 @@ def test_parallel():
     l1 = Line()  # X-axis
     l2 = Line(direction_vector=Vector([4, 0, 0]), point=Point(8, 0, 0))
     l3 = Line.from_points(Point(1, 1, 1), Point(2, 2, 2))
-
+    l4 = Line.from_points(Point(0, 0, 0), Point(-1, -1, -1))
     assert l1.is_parallel(l2)
     assert not l1.is_parallel(l3)
+    assert l3.is_parallel(l4)
+
+
+def test_orthogonal():
+    l1 = Line()  # X-axis
+    l2 = Line(direction_vector=Vector([0, 1, 0]), point=Point(0, 0, 0))  # Y-axis
+    l3 = Line(direction_vector=Vector([1, 1, 0]), point=Point(0, 0, 0))
+    l4 = Line(direction_vector=Vector([0, 0, 1]), point=Point(0, 0, 0))
+    assert l1.is_orthogonal(l2)
+    assert l3.is_orthogonal(l4)
+    assert not l1.is_orthogonal(l3)
+
+
+def test_intersection_1():
+    l1 = Line()  # X axis
+    l2 = Line(direction_vector=Vector([0, 1, 0]), point=Point(0, 1, 0))  # Y-axis
+    l3 = Line(direction_vector=Vector([-1, 1, 0]), point=Point(3, 0, 0))
+    assert l1.intersection(l2) == Point(0, 0, 0)
+    assert l3.intersection(l2) == Point(0, 3, 0)

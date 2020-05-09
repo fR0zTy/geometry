@@ -1,6 +1,7 @@
 # -*- coding : utf-8 -*-
 
-import math
+from math import isclose
+from typing import Optional
 
 from geometry import Vector, Point
 
@@ -29,17 +30,46 @@ class Line:
                     continue
                 else:
                     return False
-            elif prev is not None and not math.isclose(prev, v / u):
+            elif prev is not None and not isclose(prev, v / u):
                 return False
             else:
                 prev = v / u
 
         return True
 
-    def is_parallel(self, other: 'Line') -> bool:
-        if not isinstance(other, Line):
-            raise TypeError("other must be of type Line")
-        return self.direction_vector.normalize() == other.direction_vector.normalize()
+    def is_parallel(self, other: "Line") -> bool:
+        return (self.direction_vector.is_parallel(other.direction_vector) or
+                self.direction_vector.is_antiparallel(other.direction_vector))
+
+    def is_orthogonal(self, other: "Line") -> bool:
+        return self.direction_vector.is_orthogonal(other.direction_vector)
+
+    def intersection(self, other: "Line") -> Optional[Point]:
+        if self.is_parallel(other):
+            return None
+        if self.contains_point(other.point):
+            return other.point.copy()
+        elif other.contains_point(self.point):
+            return self.point.copy()
+
+        connector_line = Line.from_points(self.point, other.point)
+        otherXconnector = other.direction_vector.cross(connector_line.direction_vector)
+        otherXself = other.direction_vector.cross(self.direction_vector)
+
+        otherXconnector_mag = otherXconnector.magnitude()
+        otherXself_mag = otherXself.magnitude()
+        print(otherXconnector_mag, otherXself_mag)
+        if any(isclose(i, 0.0, abs_tol=1e-04) for i in (otherXconnector_mag, otherXself_mag)):
+            return None
+
+        quotient = otherXconnector_mag / otherXself_mag
+        interm = self.direction_vector.scale(quotient)
+        if otherXconnector.is_parallel(otherXself):
+            return self.point + interm
+        elif otherXconnector.is_antiparallel(otherXself):
+            return self.point - interm
+        else:
+            raise Exception("No parallel or antiparallel")
 
     @classmethod
     def from_points(cls, p0: Point, p1: Point) -> "Line":
