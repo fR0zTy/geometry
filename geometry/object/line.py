@@ -15,7 +15,7 @@ class Line:
         if not isinstance(point, Point):
             raise TypeError("point must be of type Point")
 
-        if direction_vector.is_undefined:
+        if direction_vector.is_zero_vector():
             raise ValueError(f"direction_vector: {direction_vector} is an undefined vector")
         self.direction_vector = direction_vector
         self.point = point
