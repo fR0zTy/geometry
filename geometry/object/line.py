@@ -69,7 +69,7 @@ class Line:
         elif otherXconnector.is_antiparallel(otherXself):
             return self.point - interm
         else:
-            raise Exception("No parallel or antiparallel")
+            raise Exception("Something is wrong with the intersection calculation, please notify the author!")
 
     @classmethod
     def from_points(cls, p0: Point, p1: Point) -> "Line":
