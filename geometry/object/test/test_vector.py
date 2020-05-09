@@ -46,6 +46,18 @@ def test_vector_div():
     assert v3 == Vector([1, 1, 1])
 
 
+def test_vector_append():
+    v1 = Vector([1, 2, 3])
+    v1.append(4)
+    assert v1 == Vector([1, 2, 3, 4])
+
+
+def test_vector_extend():
+    v1 = Vector([1, 2])
+    v1.extend([3, 4, 5])
+    assert v1 == Vector([1, 2, 3, 4, 5])
+
+
 def test_vector_magnitude():
     v1 = Vector([3, 4, 12])
     assert v1.magnitude() == 13

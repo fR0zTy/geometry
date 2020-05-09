@@ -73,6 +73,13 @@ class Vector:
     def __len__(self):
         return len(self.values)
 
+    def append(self, value: Real) -> None:
+        self.values.append(value)
+
+    def extend(self, values: Iterable[Real]) -> None:
+        for v in values:
+            self.values.append(v)
+
     def copy(self) -> "Vector":
         return deepcopy(self)
 
