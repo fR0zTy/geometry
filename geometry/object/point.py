@@ -47,28 +47,28 @@ class Point(Vector):
         self.values[2] = value
 
     def __add__(self, other: "Point") -> "Point":
-        if not isinstance(other, Point):
+        if not isinstance(other, Vector):
             raise ValueError(f"Cannot add instances of type {type(other)} and {type(self)}")
 
-        return Point(x=self.x + other.x, y=self.y + other.y, z=self.z + other.z)
+        return Point(*super().__add__(other))
 
     def __sub__(self, other: "Point") -> "Point":
-        if not isinstance(other, Point):
+        if not isinstance(other, Vector):
             raise ValueError(f"Cannot subtract instances of type {type(other)} and {type(self)}")
 
-        return Point(x=self.x - other.x, y=self.y - other.y, z=self.z - other.z)
+        return Point(*super().__sub__(other))
 
     def __mul__(self, other: "Point") -> "Point":
-        if not isinstance(other, Point):
+        if not isinstance(other, Vector):
             raise ValueError(f"Cannot multiply instances of type {type(other)} and {type(self)}")
 
-        return Point(x=self.x * other.x, y=self.y * other.y, z=self.z * other.z)
+        return Point(*super().__mul__(other))
 
     def __truediv__(self, other: "Point") -> "Point":
-        if not isinstance(other, Point):
+        if not isinstance(other, Vector):
             raise ValueError(f"Cannot divide instances of type {type(other)} and {type(self)}")
 
-        return Point(x=self.x / other.x, y=self.y / other.y, z=self.z / other.z)
+        return Point(*super().__truediv__(other))
 
     def __eq__(self, other: "Point") -> bool:
         return (round_compare(self.x, other.x, self.ROUND_PRECISION) and
