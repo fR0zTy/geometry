@@ -58,7 +58,7 @@ class Line:
 
         otherXconnector_mag = otherXconnector.magnitude()
         otherXself_mag = otherXself.magnitude()
-        print(otherXconnector_mag, otherXself_mag)
+
         if any(isclose(i, 0.0, abs_tol=1e-04) for i in (otherXconnector_mag, otherXself_mag)):
             return None
 
