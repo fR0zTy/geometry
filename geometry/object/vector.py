@@ -80,6 +80,9 @@ class Vector:
         for v in values:
             self.values.append(v)
 
+    def is_zero_vector(self):
+        return all(isclose(i, 0.0, abs_tol=1e-04) for i in self)
+
     def copy(self) -> "Vector":
         return deepcopy(self)
 
@@ -140,10 +143,6 @@ class Vector:
 
     def as_tuple(self) -> Tuple[Real]:
         return tuple(i for i in self)
-
-    @property
-    def is_undefined(self):
-        return all(i == 0 for i in self)
 
     @classmethod
     def from_tuple(cls, tup: Tuple[Real]) -> "Vector":
