@@ -99,6 +99,27 @@ class Vector:
     def dot(self, other: "Vector") -> Real:
         return sum(self * other)
 
+    def cross(self, other: "Vector") -> "Vector":
+        size_self, size_other = len(self), len(other)
+        if not 1 < size_self < 4 or not 1 < size_other < 4:
+            raise InvalidSizeError(f"Cross product of vector with size {len(self)} and {len(other)} is undefined!")
+
+        u = self.copy()
+        v = other.copy()
+        if size_self < size_other:
+            u.append(0)
+        elif size_self > size_other:
+            v.append(0)
+
+        if len(u) == 2:
+            u0, u1 = u
+            v0, v1 = v
+            return Vector([u0 * v1 - u1 * v0])
+        else:
+            u0, u1, u2 = u
+            v0, v1, v2 = v
+            return Vector([u1 * v2 - u2 * v1, u2 * v0 - u0 * v2, u0 * v1 - u1 * v0])
+
     def is_parallel(self, other: "Vector") -> bool:
         v1 = self.normalize()
         v2 = other.normalize()

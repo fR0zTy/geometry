@@ -80,6 +80,19 @@ def test_vector_dot():
     assert v1.dot(v2) == 14
 
 
+def test_vector_cross():
+    v1 = Vector([2, 3])
+    v2 = Vector([1, 7])
+    assert v1.cross(v2) == Vector([11])
+
+    v3 = Vector([2, 7, 4])
+    v4 = Vector([3, 9, 8])
+    assert v3.cross(v4) == Vector([20, -4, -3])
+
+    assert v1.cross(v3) == Vector([12, -8, 8])
+    assert v4.cross(v2) == Vector([-56, 8, 12])
+
+
 def test_vector_angle():
     v1 = Vector([1, 0, 0])
     v2 = Vector([0, 1, 0])
