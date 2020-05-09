@@ -95,3 +95,13 @@ def test_point_hashable(rand_point):
     pt_dict = {rand_point: 23}
     pt_dict[rand_point] = 34
     assert len(pt_dict) == 1 and pt_dict[rand_point] == 34
+
+
+def test_point_collinear():
+    a = Point(0, 0, 0)
+    b = Point(1, 1, 1)
+    c = Point(2, 2, 2)
+    d = Point(1, 0, 0)
+
+    assert Point.check_collinear(a, b, c)
+    assert not Point.check_collinear(a, d, b)

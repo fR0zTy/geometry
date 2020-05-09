@@ -140,3 +140,13 @@ class Point(Vector):
         if len(arr) != 3:
             raise InvalidSizeError("array must be of size 3")
         return cls(*arr)
+
+    @staticmethod
+    def check_collinear(a: "Point", b: "Point", c: "Point") -> bool:
+        u = (b - a).to_vector()
+        v = (c - a).to_vector()
+
+        uXv = u.cross(v)
+        if uXv.is_zero_vector():
+            return True
+        return False
