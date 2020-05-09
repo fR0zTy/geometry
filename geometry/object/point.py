@@ -142,11 +142,22 @@ class Point(Vector):
         return cls(*arr)
 
     @staticmethod
-    def check_collinear(a: "Point", b: "Point", c: "Point") -> bool:
+    def check_collinear(a: "Point", b: "Point", c: "Point", ordered=False) -> bool:
+        if a == b or b == c:
+            return True
+        elif c == a:
+            return not ordered
+
         u = (b - a).to_vector()
         v = (c - a).to_vector()
 
         uXv = u.cross(v)
-        if uXv.is_zero_vector():
-            return True
-        return False
+        if not uXv.is_zero_vector():
+            return False
+
+        if ordered:
+            uDv = u.dot(v)
+            if uDv < 0 or uDv > a.distance_to(c) ** 2:
+                return False
+
+        return True
