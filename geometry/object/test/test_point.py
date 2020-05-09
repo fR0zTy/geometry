@@ -110,3 +110,4 @@ def test_point_collinear():
     assert Point.check_collinear(a, b, b, ordered=True)
     assert Point.check_collinear(a, a, c, ordered=True)
     assert not Point.check_collinear(a, b, a, ordered=True)
+    assert Point.check_collinear(c, b, a, ordered=True)
