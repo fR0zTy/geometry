@@ -28,3 +28,16 @@ def all_equal(iterable: Iterable):
         except StopIteration:
             return True
         return all(first == rest for rest in it)
+
+
+def all_unique(iterable: Iterable):
+    """
+    Utility function for checking if all the elements are unique
+    """
+    try:
+        seen = set()
+        return not any(i in seen or seen.add(i) for i in iterable)
+    except TypeError:
+        # Exception handling for unhashable types
+        seen = list()
+        return not any(i in seen or seen.append(i) for i in iterable)
