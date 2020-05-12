@@ -1,5 +1,6 @@
 # -*- coding : utf-8 -*-
 
+import re
 from copy import deepcopy
 from math import sqrt, acos, isclose
 from typing import Generator, Iterable, Tuple
@@ -60,6 +61,9 @@ class Vector:
             raise InvalidSizeError(f"Cannot compare vectors of size {len(self)} and {len(other)}")
 
         return all(round_compare(i, j, self.ROUND_PRECISION) for i, j in zip(self, other))
+
+    def __hash__(self) -> int:
+        return int(re.sub(r"\D", "", str(self)))
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(values={str(self.values)})"
