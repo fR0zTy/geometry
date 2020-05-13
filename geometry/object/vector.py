@@ -1,7 +1,6 @@
 # -*- coding : utf-8 -*-
 
 import re
-from copy import deepcopy
 from math import sqrt, acos, isclose
 from typing import Generator, Iterable, Tuple
 
@@ -10,9 +9,10 @@ import numpy as np
 from geometry.error import InvalidSizeError
 from geometry.types import Real
 from geometry.utilities import round_compare
+from geometry.utilities.copyable import CopyableMixin
 
 
-class Vector:
+class Vector(CopyableMixin):
 
     ROUND_PRECISION = 4
 
@@ -86,9 +86,6 @@ class Vector:
 
     def is_zero_vector(self):
         return all(isclose(i, 0.0, abs_tol=1e-04) for i in self)
-
-    def copy(self) -> "Vector":
-        return deepcopy(self)
 
     def magnitude(self) -> Real:
         return sqrt(sum(i ** 2 for i in self))
