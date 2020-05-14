@@ -4,8 +4,6 @@ import re
 from math import atan2, sqrt, isnan
 from typing import Tuple
 
-import numpy as np
-
 from geometry import Vector
 from geometry.error import InvalidSizeError
 from geometry.types import Real, Axis
@@ -48,25 +46,25 @@ class Point(Vector):
 
     def __add__(self, other: "Point") -> "Point":
         if not isinstance(other, Vector):
-            raise ValueError(f"Cannot add instances of type {type(other)} and {type(self)}")
+            raise TypeError(f"Cannot add instances of type {type(other)} and {type(self)}")
 
         return Point(*super().__add__(other))
 
     def __sub__(self, other: "Point") -> "Point":
         if not isinstance(other, Vector):
-            raise ValueError(f"Cannot subtract instances of type {type(other)} and {type(self)}")
+            raise TypeError(f"Cannot subtract instances of type {type(other)} and {type(self)}")
 
         return Point(*super().__sub__(other))
 
     def __mul__(self, other: "Point") -> "Point":
         if not isinstance(other, Vector):
-            raise ValueError(f"Cannot multiply instances of type {type(other)} and {type(self)}")
+            raise TypeError(f"Cannot multiply instances of type {type(other)} and {type(self)}")
 
         return Point(*super().__mul__(other))
 
     def __truediv__(self, other: "Point") -> "Point":
         if not isinstance(other, Vector):
-            raise ValueError(f"Cannot divide instances of type {type(other)} and {type(self)}")
+            raise TypeError(f"Cannot divide instances of type {type(other)} and {type(self)}")
 
         return Point(*super().__truediv__(other))
 
@@ -134,12 +132,6 @@ class Point(Vector):
         if len(tup) != 3:
             raise InvalidSizeError("length of tuple must be 3")
         return cls(*tup)
-
-    @classmethod
-    def from_numpy_array(cls, arr: np.ndarray) -> "Point":
-        if len(arr) != 3:
-            raise InvalidSizeError("array must be of size 3")
-        return cls(*arr)
 
     @staticmethod
     def check_collinear(a: "Point", b: "Point", c: "Point", ordered=False) -> bool:

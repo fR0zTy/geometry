@@ -4,8 +4,6 @@ import re
 from math import sqrt, acos, isclose
 from typing import Generator, Iterable, Tuple
 
-import numpy as np
-
 from geometry.error import InvalidSizeError
 from geometry.types import Real
 from geometry.utilities import round_compare
@@ -28,35 +26,35 @@ class Vector(CopyableMixin):
 
     def __add__(self, other: "Vector") -> "Vector":
         if not isinstance(other, Vector):
-            raise ValueError(f"Cannot add instances of type {type(other)} and {type(self)}")
+            raise TypeError(f"Cannot add instances of type {type(other)} and {type(self)}")
         if not len(self) == len(other):
             raise InvalidSizeError(f"Cannot add vectors of size {len(self)} and {len(other)}")
         return Vector(i + j for i, j in zip(self, other))
 
     def __sub__(self, other: "Vector") -> "Vector":
         if not isinstance(other, Vector):
-            raise ValueError(f"Cannot subtract instances of type {type(other)} and {type(self)}")
+            raise TypeError(f"Cannot subtract instances of type {type(other)} and {type(self)}")
         if not len(self) == len(other):
             raise InvalidSizeError(f"Cannot subtract vectors of size {len(self)} and {len(other)}")
         return Vector(i - j for i, j in zip(self, other))
 
     def __mul__(self, other: "Vector") -> "Vector":
         if not isinstance(other, Vector):
-            raise ValueError(f"Cannot multiply instances of type {type(other)} and {type(self)}")
+            raise TypeError(f"Cannot multiply instances of type {type(other)} and {type(self)}")
         if not len(self) == len(other):
             raise InvalidSizeError(f"Cannot multiply vectors of size {len(self)} and {len(other)}")
         return Vector(i * j for i, j in zip(self, other))
 
     def __truediv__(self, other: "Vector") -> "Vector":
         if not isinstance(other, Vector):
-            raise ValueError(f"Cannot divide instances of type {type(other)} and {type(self)}")
+            raise TypeError(f"Cannot divide instances of type {type(other)} and {type(self)}")
         if not len(self) == len(other):
             raise InvalidSizeError(f"Cannot divide vectors of size {len(self)} and {len(other)}")
         return Vector(i / j for i, j in zip(self, other))
 
     def __eq__(self, other: "Vector") -> "Vector":
         if not isinstance(other, Vector):
-            raise ValueError(f"Cannot compare instances of type {type(other)} and {type(self)}")
+            raise TypeError(f"Cannot compare instances of type {type(other)} and {type(self)}")
         if not len(self) == len(other):
             raise InvalidSizeError(f"Cannot compare vectors of size {len(self)} and {len(other)}")
 
@@ -76,7 +74,7 @@ class Vector(CopyableMixin):
         return int(re.sub(r"\D", "", str(self)))
 
     def __str__(self) -> str:
-        return f"{self.__class__.__name__}(values={str(self.values)})"
+        return f"{self.__class__.__name__}(" + ", ".join([f"{i:.4f}" for i in self.values]) + ")"
 
     def __repr__(self) -> str:
         return str(self)
@@ -149,16 +147,9 @@ class Vector(CopyableMixin):
         v2 = other.normalize()
         return isclose(abs(v1.dot(v2)), 0.0, abs_tol=1e-04)
 
-    def as_numpy_array(self) -> np.ndarray:
-        return np.array(self.values)
-
     def as_tuple(self) -> Tuple[Real]:
         return tuple(i for i in self)
 
     @classmethod
     def from_tuple(cls, tup: Tuple[Real]) -> "Vector":
         return cls(tup)
-
-    @classmethod
-    def from_numpy_array(cls, arr: np.ndarray) -> "Vector":
-        return cls(arr)
