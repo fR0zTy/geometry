@@ -62,6 +62,16 @@ class Vector(CopyableMixin):
 
         return all(round_compare(i, j, self.ROUND_PRECISION) for i, j in zip(self, other))
 
+    def __getitem__(self, idx):
+        if idx >= len(self.values):
+            raise IndexError(f"index {idx} is out of range for a Vector of size {len(self.values)}")
+        return self.values[idx]
+
+    def __setitem__(self, idx, value):
+        if idx >= len(self.values):
+            raise IndexError(f"index {idx} is out of range for a Vector of size {len(self.values)}")
+        self.values[idx] = value
+
     def __hash__(self) -> int:
         return int(re.sub(r"\D", "", str(self)))
 
