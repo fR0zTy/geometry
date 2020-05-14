@@ -1,18 +1,14 @@
 # -*- coding : utf-8 -*-
 
-import re
-from math import atan2, sqrt, isnan
+from math import atan2, sqrt, isnan, isclose
 from typing import Tuple
 
 from geometry import Vector
 from geometry.error import InvalidSizeError
 from geometry.types import Real, Axis
-from geometry.utilities import round_compare
 
 
 class Point(Vector):
-
-    ROUND_PRECISION = 4
 
     def __init__(self, x: Real = 0.0, y: Real = 0.0, z: Real = 0.0) -> None:
         super().__init__([x, y, z])
@@ -69,12 +65,12 @@ class Point(Vector):
         return Point(*super().__truediv__(other))
 
     def __eq__(self, other: "Point") -> bool:
-        return (round_compare(self.x, other.x, self.ROUND_PRECISION) and
-                round_compare(self.y, other.y, self.ROUND_PRECISION) and
-                round_compare(self.z, other.z, self.ROUND_PRECISION))
+        if not isinstance(other, Point):
+            raise TypeError(f"Cannot compare instances of type {type(other)} and {type(self)}")
+        return all(isclose(i, j, rel_tol=1e-09, abs_tol=1e-04) for i, j in zip(self, other))
 
     def __hash__(self) -> int:
-        return int(re.sub(r"\D", "", str(self)))
+        return hash(self.as_tuple())
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(x={self.x:.4f}, y={self.y:.4f}, z={self.z:.4f})"

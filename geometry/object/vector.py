@@ -1,20 +1,14 @@
 # -*- coding : utf-8 -*-
 
-import re
 from math import sqrt, acos, isclose
 from typing import Generator, Iterable, Tuple
 
 from geometry.error import InvalidSizeError
 from geometry.types import Real
-from geometry.utilities import round_compare
 from geometry.utilities.copyable import CopyableMixin
 
 
 class Vector(CopyableMixin):
-
-    ROUND_PRECISION = 4
-
-    __hash__ = None
 
     def __init__(self, values: Iterable[Real] = []) -> None:
         self.values = [v for v in values]
@@ -58,7 +52,7 @@ class Vector(CopyableMixin):
         if not len(self) == len(other):
             raise InvalidSizeError(f"Cannot compare vectors of size {len(self)} and {len(other)}")
 
-        return all(round_compare(i, j, self.ROUND_PRECISION) for i, j in zip(self, other))
+        return all(isclose(i, j, rel_tol=1e-09, abs_tol=1e-04) for i, j in zip(self, other))
 
     def __getitem__(self, idx):
         if idx >= len(self.values):
@@ -71,7 +65,7 @@ class Vector(CopyableMixin):
         self.values[idx] = value
 
     def __hash__(self) -> int:
-        return int(re.sub(r"\D", "", str(self)))
+        return hash(self.as_tuple())
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(" + ", ".join([f"{i:.4f}" for i in self.values]) + ")"
