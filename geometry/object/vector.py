@@ -18,6 +18,9 @@ class Vector(CopyableMixin):
     def __iter__(self) -> Generator[Real, None, None]:
         yield from self.values
 
+    def __neg__(self) -> "Vector":
+        return Vector(-i for i in self)
+
     def __add__(self, other: "Vector") -> "Vector":
         if not isinstance(other, Vector):
             raise TypeError(f"Cannot add instances of type {type(other)} and {type(self)}")

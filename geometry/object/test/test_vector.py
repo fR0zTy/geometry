@@ -14,6 +14,11 @@ def test_vector_generation():
         Vector(["1", "2", "3"])
 
 
+def test_vector_neg():
+    v1 = Vector([1, 2, 3])
+    assert -v1 == Vector([-1, -2, -3])
+
+
 def test_vector_add():
     v1 = Vector([1, 2, 3])
     v2 = Vector([1, 2, 3])
