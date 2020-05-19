@@ -1,15 +1,9 @@
 # -*- coding : utf-8 -*-
 
-from typing import Union, List
+from typing import List, Union
 
 # Type definitions
 Real = Union[int, float]
 RealList = List[Real]
 
 # Enums
-
-
-class Axis:
-    X = 1
-    Y = 0
-    Z = 2
