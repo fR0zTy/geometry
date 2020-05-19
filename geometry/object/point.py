@@ -3,9 +3,9 @@
 from math import atan2, sqrt, isnan, isclose
 from typing import Tuple
 
-from geometry import Vector
+from geometry import Vector, Axes
 from geometry.error import InvalidSizeError
-from geometry.types import Real, Axis
+from geometry.types import Real
 
 
 class Point(Vector):
@@ -98,12 +98,12 @@ class Point(Vector):
     def near(self, other, threshold=0.01) -> bool:
         return self.distance_to(other) <= threshold
 
-    def angle(self, axis: Axis) -> Real:
-        if axis == Axis.X:
+    def angle(self, axis: Axes) -> Real:
+        if axis == Axes.X:
             return atan2(sqrt(self.y ** 2 + self.z ** 2), self.x)
-        elif axis == Axis.Y:
+        elif axis == Axes.Y:
             return atan2(sqrt(self.z ** 2 + self.x ** 2), self.y)
-        elif axis == Axis.Z:
+        elif axis == Axes.Z:
             return atan2(sqrt(self.x ** 2 + self.y ** 2), self.z)
         else:
             raise ValueError("Invalid value for axis")
