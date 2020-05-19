@@ -108,15 +108,15 @@ class Point(Vector):
         else:
             raise ValueError("Invalid value for axis")
 
-    def to_vector(self):
+    def to_vector(self) -> "Vector":
         return Vector(self)
 
     @property
-    def is_undefined(self):
+    def is_undefined(self) -> bool:
         return any(isnan(i) for i in self)
 
     @property
-    def is_origin(self):
+    def is_origin(self) -> bool:
         return all(i == 0 for i in self)
 
     @classmethod
