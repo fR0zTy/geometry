@@ -1,7 +1,7 @@
 # -*- coding : utf-8 -*-
 
 from math import sqrt, acos, isclose
-from typing import Generator, Iterable, Tuple
+from typing import Generator, Iterable, Tuple, Union
 
 from geometry.error import InvalidSizeError
 from geometry.types import Real
@@ -24,30 +24,41 @@ class Vector(CopyableMixin):
     def __add__(self, other: "Vector") -> "Vector":
         if not isinstance(other, Vector):
             raise TypeError(f"Cannot add instances of type {type(other)} and {type(self)}")
-        if not len(self) == len(other):
+        if len(self) != len(other):
             raise InvalidSizeError(f"Cannot add vectors of size {len(self)} and {len(other)}")
         return Vector(i + j for i, j in zip(self, other))
 
     def __sub__(self, other: "Vector") -> "Vector":
         if not isinstance(other, Vector):
             raise TypeError(f"Cannot subtract instances of type {type(other)} and {type(self)}")
-        if not len(self) == len(other):
+        if len(self) != len(other):
             raise InvalidSizeError(f"Cannot subtract vectors of size {len(self)} and {len(other)}")
         return Vector(i - j for i, j in zip(self, other))
 
     def __mul__(self, other: "Vector") -> "Vector":
         if not isinstance(other, Vector):
             raise TypeError(f"Cannot multiply instances of type {type(other)} and {type(self)}")
-        if not len(self) == len(other):
+        if len(self) != len(other):
             raise InvalidSizeError(f"Cannot multiply vectors of size {len(self)} and {len(other)}")
         return Vector(i * j for i, j in zip(self, other))
 
     def __truediv__(self, other: "Vector") -> "Vector":
         if not isinstance(other, Vector):
             raise TypeError(f"Cannot divide instances of type {type(other)} and {type(self)}")
-        if not len(self) == len(other):
+        if len(self) != len(other):
             raise InvalidSizeError(f"Cannot divide vectors of size {len(self)} and {len(other)}")
         return Vector(i / j for i, j in zip(self, other))
+
+    def __div__(self, other: "Vector") -> "Vector":
+        return self.__truediv__(other)
+
+    def __pow__(self, exponent: Union[Real, "Vector"]) -> "Vector":
+        if isinstance(exponent, Vector):
+            if len(self) != len(exponent):
+                raise InvalidSizeError(f"Cannot expontiate vectors of size {len(self)} and {len(exponent)}")
+            return Vector(i ** j for i, j in zip(self, exponent))
+        else:
+            return Vector(i ** exponent for i in self)
 
     def __eq__(self, other: "Vector") -> "Vector":
         if not isinstance(other, Vector):

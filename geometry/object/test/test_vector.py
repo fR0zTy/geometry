@@ -51,6 +51,14 @@ def test_vector_div():
     assert v3 == Vector([1, 1, 1])
 
 
+def test_vector_pow():
+    v1 = Vector([2, 2, 2, 2])
+    exp = 2
+    v2 = Vector([1, 2, 3, 4])
+    assert v1 ** exp == Vector([4, 4, 4, 4])
+    assert v1 ** v2 == Vector([2, 4, 8, 16])
+
+
 def test_vector_append():
     v1 = Vector([1, 2, 3])
     v1.append(4)
