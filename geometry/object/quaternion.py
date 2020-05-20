@@ -142,6 +142,22 @@ class Quaternion(CopyableMixin):
     def norm(self) -> Real:
         return sqrt(self._squared_sum())
 
+    def __len__(self):
+        return 4
+
+    def __getitem__(self, idx: int) -> Real:
+        if idx > 3:
+            raise IndexError(f"Index {idx} is out of range for a Quaternion of size 4")
+        return self.scalar if idx == 0 else self.vector[idx - 1]
+
+    def __setitem__(self, idx: int, value: Real) -> None:
+        if idx > 3:
+            raise IndexError(f"Index {idx} is out of range for a Quaternion of size 4")
+        if idx == 0:
+            self.scalar = value
+        else:
+            self.vector[idx - 1] = value
+
     def normalize(self) -> "Quaternion":
         if self.is_zero_quaternion():
             raise ValueError("Cannot normalize a zero quaternion!")
