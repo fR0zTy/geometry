@@ -92,8 +92,14 @@ class Vector(CopyableMixin):
     def is_zero_vector(self) -> bool:
         return all(isclose(i, 0.0, abs_tol=1e-04) for i in self)
 
+    def is_unit_vector(self) -> bool:
+        return isclose(self._squared_sum(), 1.0, rel_tol=1e-09)
+
     def magnitude(self) -> Real:
-        return sqrt(sum(i ** 2 for i in self))
+        return sqrt(self._squared_sum())
+
+    def _squared_sum(self):
+        return sum(i ** 2 for i in self)
 
     def normalize(self) -> "Vector":
         mag = self.magnitude()
