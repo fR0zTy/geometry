@@ -57,12 +57,12 @@ class Vector(CopyableMixin):
 
         return all(isclose(i, j, rel_tol=1e-09, abs_tol=1e-04) for i, j in zip(self, other))
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx) -> Real:
         if idx >= len(self.values):
             raise IndexError(f"index {idx} is out of range for a Vector of size {len(self.values)}")
         return self.values[idx]
 
-    def __setitem__(self, idx, value):
+    def __setitem__(self, idx, value) -> None:
         if idx >= len(self.values):
             raise IndexError(f"index {idx} is out of range for a Vector of size {len(self.values)}")
         self.values[idx] = value
@@ -79,7 +79,7 @@ class Vector(CopyableMixin):
     def __round__(self, n=None) -> "Vector":
         return Vector(round(i, n) for i in self)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.values)
 
     def append(self, value: Real) -> None:
@@ -89,7 +89,7 @@ class Vector(CopyableMixin):
         for v in values:
             self.values.append(v)
 
-    def is_zero_vector(self):
+    def is_zero_vector(self) -> bool:
         return all(isclose(i, 0.0, abs_tol=1e-04) for i in self)
 
     def magnitude(self) -> Real:
