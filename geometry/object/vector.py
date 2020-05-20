@@ -68,12 +68,12 @@ class Vector(CopyableMixin):
 
         return all(isclose(i, j, rel_tol=1e-09, abs_tol=1e-04) for i, j in zip(self, other))
 
-    def __getitem__(self, idx) -> Real:
+    def __getitem__(self, idx: int) -> Real:
         if idx >= len(self.values):
             raise IndexError(f"index {idx} is out of range for a Vector of size {len(self.values)}")
         return self.values[idx]
 
-    def __setitem__(self, idx, value) -> None:
+    def __setitem__(self, idx: int, value: Real) -> None:
         if idx >= len(self.values):
             raise IndexError(f"index {idx} is out of range for a Vector of size {len(self.values)}")
         self.values[idx] = value
