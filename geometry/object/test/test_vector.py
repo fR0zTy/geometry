@@ -76,7 +76,7 @@ def test_vector_scaling():
 def test_vector_normalize():
     v1 = Vector([4, 5, 6])
     normed = v1.normalize()
-    assert math.isclose(normed.magnitude(), 1.0, rel_tol=1e-04)
+    assert normed.is_unit_vector()
 
 
 def test_vector_dot():
