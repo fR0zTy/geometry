@@ -48,9 +48,9 @@ def test_quaternion_sub():
 
 def test_quaternion_mul_basis():
     _ = Quaternion.identity()
-    i = Quaternion.i()
-    j = Quaternion.j()
-    k = Quaternion.k()
+    i = Quaternion(0, 1, 0, 0)
+    j = Quaternion(0, 0, 1, 0)
+    k = Quaternion(0, 0, 0, 1)
 
     # test identity multiplication
     assert _ * i == i
@@ -81,11 +81,19 @@ def test_quaternion_div():
     assert q1 / q1 == Quaternion.identity()
 
 
+def test_quaternion_div_real():
+    q1 = Quaternion(1, 2, 3, 4)
+    real = 4
+    q2 = Quaternion(*(i / real for i in q1))
+
+    assert q1 / real == q2
+
+
 def test_quaternion_pow():
     _ = Quaternion.identity()
-    i = Quaternion.i()
-    j = Quaternion.j()
-    k = Quaternion.k()
+    i = Quaternion(0, 1, 0, 0)
+    j = Quaternion(0, 0, 1, 0)
+    k = Quaternion(0, 0, 0, 1)
 
     i2 = i ** 2
     j2 = j ** 2

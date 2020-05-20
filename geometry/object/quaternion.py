@@ -68,6 +68,30 @@ class Quaternion(CopyableMixin):
             raise TypeError(f"Cannot subtract instances of type {type(other)} and {type(self)}")
         return Quaternion(self.scalar - other.scalar, *(self.vector - other.vector))
 
+    def __div__(self, other: "Quaternion") -> "Quaternion":
+        if not isinstance(other, Quaternion):
+            other = Quaternion.from_scalar(other)
+        if other.is_zero_quaternion():
+            raise ZeroDivisionError("other is a zero quaternion!")
+        return self * other.inverse()
+
+    def __idiv__(self, other: "Quaternion") -> "Quaternion":
+        return self.__div__(other)
+
+    def __rdiv__(self, other: "Quaternion") -> "Quaternion":
+        if not isinstance(other, Quaternion):
+            other = Quaternion.from_scalar(other)
+        return other * self.inverse()
+
+    def __truediv__(self, other: "Quaternion") -> "Quaternion":
+        return self.__div__(other)
+
+    def __itruediv__(self, other: "Quaternion") -> "Quaternion":
+        return self.__idiv__(other)
+
+    def __rtruediv__(self, other: "Quaternion") -> "Quaternion":
+        return self.__rdiv__(other)
+
     def __mul__(self, other: "Quaternion") -> "Quaternion":
         if not isinstance(other, Quaternion):
             other = Quaternion.from_scalar(other)
@@ -83,16 +107,6 @@ class Quaternion(CopyableMixin):
         if not isinstance(other, Quaternion):
             other = Quaternion.from_scalar(other)
         return other * self
-
-    def __div__(self, other: "Quaternion") -> "Quaternion":
-        if not isinstance(other, Quaternion):
-            other = Quaternion.from_scalar(other)
-        if other.is_zero_quaternion():
-            raise ZeroDivisionError("other is a zero quaternion!")
-        return other * self.inverse()
-
-    def __truediv__(self, other: "Quaternion") -> "Quaternion":
-        return self.__div__(other)
 
     def __pow__(self, exponent: Real) -> "Quaternion":
         norm = self.norm()
@@ -154,18 +168,6 @@ class Quaternion(CopyableMixin):
     @classmethod
     def identity(cls) -> "Quaternion":
         return cls(1, 0, 0, 0)
-
-    @classmethod
-    def i(cls) -> "Quaternion":
-        return cls(0, 1, 0, 0)
-
-    @classmethod
-    def j(cls) -> "Quaternion":
-        return cls(0, 0, 1, 0)
-
-    @classmethod
-    def k(cls) -> "Quaternion":
-        return cls(0, 0, 0, 1)
 
     @classmethod
     def from_scalar(cls, scalar: Real) -> "Quaternion":
